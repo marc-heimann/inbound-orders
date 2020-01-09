@@ -1,0 +1,16 @@
+{
+	"type":"enterprise-portal",
+	"menuItemKey":"Inboundorder", 
+	"screens": [
+		{ 
+			"name": "InboundorderOverview",
+			"menuItemKey": "io-overview",
+			"URL": "/ios/viewIOs.html" 
+		},
+		{ 
+			"name": "InboundorderAdd",
+			"menuItemKey": "io-add",
+			"URL": "/ios/addIO.html" 
+		}			
+	]
+}

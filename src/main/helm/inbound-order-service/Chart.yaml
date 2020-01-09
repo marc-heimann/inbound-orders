@@ -1,0 +1,25 @@
+apiVersion: v1
+name: inbound-order-service
+description: This application deals with Inbound Orders, it provides endpoints to post a new Inboundorder, to fetch all InboundOrders or to query a specific InboundOrder by its name.
+version: ${project.version}
+categories:
+  - SynQ X
+  - Inbound Service
+events:
+  - INBOUND_ORDER_CREATED
+  - INBOUND_ORDER_DELETED
+appVersion: ${project.version}
+keywords:
+  - Inbound
+  - Inboundorders
+  - Inbound Orders
+maintainers:
+  - name: Marc Heimann 
+    email: marc.heimann@swisslog.com
+  - name: Maximilian Grobe 
+    email: maximilian.grobe@swisslog.com
+home: http://10.49.145.139:8090/display/SLSCS/Inbound+Order+Service
+sources:
+  - http://gitlab.swisslog.net:31823/g7heimm/inbound-order-service.git
+icon: https://www.swisslog.com/-/media/swisslog/images/logistics-warehouse-distribution-automation/software/synq/synq-wms_header.jpg
+#icon: https://www.swisslog.com/-/media/swisslog/images/system/swisslog-logo-small.png

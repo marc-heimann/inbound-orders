@@ -1,0 +1,127 @@
+# Default values for inbound-order-service.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: container.swisslog.net:30056/sl/inbound-order-service
+  tag: latest
+  pullPolicy: Always
+  imagePullSecret: nightly-regcred
+
+nameOverride: ""
+fullnameOverride: ""
+
+services:  
+  - name: inboundorder
+    enabled: true    
+    type: NodePort
+    port: 80
+    host: inboundorder
+    subsets:
+    - name: latest
+      labels:
+        version: nil
+    annotations: 
+      getambassador.io/config: |
+        ---
+        apiVersion: ambassador/v1
+        kind: Mapping
+        name: inboundorder_get_mapping
+        prefix: /v1/inboundorder
+        service: http://inboundorder.sl-application:80
+        method: GET
+        rewrite: ""
+        ---
+        apiVersion: ambassador/v1
+        kind: Mapping
+        name: inboundorder_put_mapping
+        prefix: /v1/inboundorder
+        service: http://inboundorder.sl-application:80
+        method: PUT
+        rewrite: ""
+        ---
+        apiVersion: ambassador/v1
+        kind: Mapping
+        name: inboundorder_post_mapping
+        prefix: /v1/inboundorder
+        service: http://inboundorder.sl-application:80
+        method: POST
+        rewrite: ""
+        ---
+        apiVersion: ambassador/v1
+        kind: Mapping
+        name: inboundorder_delete_mapping
+        prefix: /v1/inboundorder
+        service: http://inboundorder.sl-application:80
+        method: DELETE
+        rewrite: ""
+  - name: inboundorders
+    enabled: true
+    type: ClusterIP
+    port: 80
+    host: inboundorders
+    subsets:
+    - name: latest
+      labels:
+        version: nil
+    annotations: 
+      getambassador.io/config: |
+        ---
+        apiVersion: ambassador/v1
+        kind: Mapping
+        name: inboundorders_get_mapping
+        prefix: /v1/inboundorders
+        service: http://inboundorders.sl-application:80
+        method: GET
+        rewrite: ""
+  - name: ios
+    enabled: true
+    type: ClusterIP
+    port: 80
+    targetport: http
+    host: ios
+    subsets:
+    - name: latest
+      labels:
+        version: nil
+    annotations: 
+      getambassador.io/config: |
+        ---
+        apiVersion: ambassador/v1
+        kind: Mapping
+        name: ios_get_mapping
+        prefix: /ios/
+        service: http://ios..sl-application:80
+        method: GET
+        rewrite: ""
+ingress:
+  enabled: false
+  annotations: {"kubernetes.io/ingress.class": "istio"}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  paths: ["/inboundorder/.*", "/inboundorders/.*"]
+  hosts: []    
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {"kubernetes.io/os": "linux"}
+
+tolerations: []
+
+affinity: {}

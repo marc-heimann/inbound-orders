@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Inboundorders</title>
+	<link rel="stylesheet" href="./css/main.css">	
+</head>
+
+<body id="addIOBody" class="light">
+
+	<main class="container">
+
+	</main>
+	<table frame=border rules =all id= "outputTable" class="outputTable">
+	  <tr>
+		<th colspan="1" scope="colgroup">Order Type</th>
+		<th colspan="1" scope="colgroup">Purchase Order ID</th>
+		<th colspan="1" scope="colgroup">Receipt Date</th>
+		<th colspan="1" scope="colgroup">Replenishment Order ID</th>
+		<th colspan="1" scope="colgroup">Sales Order ID</th>
+	  </tr>
+	  <tr>
+	    <td scope="col">
+	    	<input class="ioInfo" type="text" id="orderType">
+	    </td>
+	    <td scope="col">
+	    	<input class="ioInfo" type="text" id="poID">
+	    </td>
+	    <td scope="col">
+	    	<input class="ioInfo" type="date" id="recDate">
+	    	<br>
+	    	<input class="ioInfo" type="time" id="recTime">
+	    </td>
+	    <td scope="col">	
+	    	<input class="ioInfo" type="text" id="roID">
+	    </td>
+	    <td scope="col">
+	    	<input class="ioInfo" type="text" id="soID">
+	    </td>
+	  </tr>
+	  <tr>
+	  	<th colspan="1" scope="colgroup">Shipping Date</th>
+		<th colspan="1" scope="colgroup">Show Suggested Order Lines</th>
+		<th colspan="1" scope="colgroup">Status</th>
+		<th colspan="2" scope="colgroup">Supplier</th>
+	  </tr>
+	  <tr>
+	    <th scope="col"></th>
+	    <th scope="col"></th>
+	    <th scope="col"></th>
+	    <th scope="col">id</th>
+	    <th scope="col">name</th>
+	  </tr>
+	  <tr>
+	  	<td scope="col">
+	    	<input class="ioInfo" type="date" id="shipDate">
+	    	<br>
+	    	<input class="ioInfo" type="time" id="shipTime">
+	    </td>
+	    <td scope="col">
+	    	<input class="ioInfo" type="checkbox" id="ssOL">
+	    </td>
+	    <td scope="col">
+	    	<select name="status" id="status">
+    			<option value="NOT_SENT">not sent</option>
+    			<option value="SENT_TO_PURCHASE_SYSTEM">sent to purchase system</option>
+    			<option value="REQUESTED">requested</option>
+    			<option value="SENT_TO_ORDER_SYSTEM">sent to order system</option>
+    			<option value="CONFIRMED">confirmed</option>
+    			<option value="PARTIALLY_SHIPPED">partially shipped</option>
+    			<option value="SHIPPED">shipped</option>
+    			<option value="PARTIALLY_RECEIVED">partially received</option>
+    			<option value="RECEIVED">received</option>
+  			</select>
+	    </td>
+	    <td scope="col">
+	    	<input class="ioInfo" type="text" id="supID">
+	    </td>
+	    <td scope="col">
+	    	<input class="ioInfo" type="text" id="supName">
+	    </td>
+	  </tr>
+	</table>
+	<br>
+	<button type="button" id="addButton">Add</button>
+	<label for="addButton" id="errorLabel"></label>
+</body>
+<script src="./js/add.js" id="addjs"></script>
+</html>

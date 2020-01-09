@@ -1,0 +1,19 @@
+:description: This is the documentation of the Inbound Order Service example implementation based on EE/Microprofile 
+:organization: Swisslog
+:doctype: book
+:toc: left
+:toc-title: Table of Contents
+:toclevels: 5
+:sectnumlevels: 8
+:sectnums:
+:icons: font
+
+= Inbound Order Service
+Author: <marc.heimann@swisslog.com>
+
+
+
+Last update: {docdate}
+
+include::chapters/scope.adoc[]
+include::chapters/facts.adoc[]

@@ -1,0 +1,8 @@
+  <file>target/docs/inboundorders-test-documentation.adoc</file>
+  <asciidocRootFolder>./target/docs</asciidocRootFolder>
+[DEBUG]   (s) file = target/docs/inboundorders-test-documentation.adoc
+[ERROR] File 'target/docs/inboundorders-test-documentation.adoc' does not exist
+[ERROR] Failed to execute goal com.google.code.maven-replacer-plugin:replacer:1.5.3:replace (default) on project inboundorders: File 'target/docs/inboundorders-test-documentation.adoc' does not exist -> [Help 1]
+org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal com.google.code.maven-replacer-plugin:replacer:1.5.3:replace (default) on project inboundorders: File 'target/docs/inboundorders-test-documentation.adoc' does not exist
+Caused by: org.apache.maven.plugin.MojoExecutionException: File 'target/docs/inboundorders-test-documentation.adoc' does not exist
+Caused by: java.io.FileNotFoundException: File 'target/docs/inboundorders-test-documentation.adoc' does not exist

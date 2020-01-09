@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Inboundorders</title>
+	<link rel="stylesheet" href="./css/main.css">	
+</head>
+
+<body id="viewIOsBody" class="light">
+
+	<main class="container">
+
+	</main>
+	<button type="button" id="reloadButton">Reload</button>
+	<br>
+	<table style="width:70%" frame=border rules =all id= "outputTable">
+		<tr>
+		    <th colspan="1" scope="colgroup">Inbound Order ID</th>
+		    <th colspan="1" scope="colgroup">Order Type</th>
+		    <th colspan="1" scope="colgroup">Purchase Order ID</th>
+		    <th colspan="1" scope="colgroup">Receipt Date</th>
+		    <th colspan="1" scope="colgroup">Replenishment Order ID</th>
+		    <th colspan="1" scope="colgroup">Sales Order ID</th>
+		    <th colspan="1" scope="colgroup">Shipping Date</th>
+		    <th colspan="1" scope="colgroup">Show Suggested Order Lines</th>
+		    <th colspan="1" scope="colgroup">Status</th>
+		    <th colspan="2" scope="colgroup">Supplier</th>
+		  </tr>
+		  <tr>
+		    <th scope="col"></th>
+		    <th scope="col"></th>
+		    <th scope="col"></th>
+		    <th scope="col"></th>
+		    <th scope="col"></th>
+		    <th scope="col"></th>
+		    <th scope="col"></th>
+		    <th scope="col"></th>
+		    <th scope="col"></th>
+		    <th scope="col">id</th>
+		    <th scope="col">name</th>
+		  </tr>
+		  <tr>
+		  	<th>
+		  		<input class="searchInput" type="number" name="ioId" id="ioId" style="width: 50px;">
+		  	</th>
+		  	<th>
+		  		<input class="searchInput" type="text" name="orderType" id="orderType" style="width: 100px;">
+		  	</th>
+		  	<th>
+		  		<input class="searchInput" type="number" name="purchaseOrderId" id="purchaseOrderId" style="width: 50px;">
+		  	</th>
+		  	<th>
+		  	
+		  	</th>
+		  	<th>
+		  		<input class="searchInput" type="number" name="replenishmentOrderId" id="replenishmentOrderId" style="width: 50px;">
+		  	</th>
+		  	<th>
+		  		<input class="searchInput" type="number" name="salesOrderId" id="salesOrderId" style="width: 50px;">
+		  	</th>
+		  	<th>
+		  	
+		  	</th>
+		  	<th>
+		  		
+		  	</th>
+		  	<th>
+		  		<input class="searchInput" type="text" name="status" id="status" style="width: 100px;">
+		  	</th>
+		  	<th>
+		  		<input class="searchInput" type="number" name="supId" id="supId" style="width: 50px;">
+		  	</th>
+		  	<th>
+		  		<input class="searchInput" type="text" name="supName" id="supName" style="width: 100px;">
+		  	</th>
+		</tr>
+	</table>
+	<label id="errorLabel"></label>
+</body>
+<script src="./js/view.js" id="rest"></script>
+</html>

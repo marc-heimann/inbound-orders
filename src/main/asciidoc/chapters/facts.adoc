@@ -1,0 +1,9 @@
+[[section-facts]]
+= Facts (Events)
+
+== INBOUND_ORDER_CREATED
+The service throws this event in case a new Inbound Order became available to the system.  
+
+== INBOUND_ORDER_DELETED
+The service throws this event in case an existing Inbound Order has made unavailable to the system.
+

@@ -1,0 +1,27 @@
+input.asnInfo{
+	margin: 0 auto;
+	display: block;
+}
+input.asnInfo[type="number"] {
+	width: 50px;
+}
+input.asnInfo[type="text"] {
+	width: 100px;
+}
+input.asnInfo[type="date"]{
+	width: 130px;
+}
+input.asnInfo[type="time"]{
+	width: 130px;
+}
+.outputTable{
+	width: 70%;
+}
+
+.light{
+	color: #000000;
+}
+
+.dark{
+	color: #ffffff;
+}

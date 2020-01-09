@@ -1,0 +1,8 @@
+[[section-scope]]
+= Scope
+
+The Service deals with all the aspects of the inbound order process.
+
+It provides two endpoints one (inboundorders) to read the full list of inboundorders to read, create, update and delete inbound orders
+
+test

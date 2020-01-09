@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Properties>
+           <Property name="log-path">logs</Property>
+  </Properties>
+
+  <Appenders>
+  
+    <RollingFile name="DailyRolling" fileName="${log-path}/myexample.log" append="true"
+    filePattern="${log-path}/myexample-%d{yyyy-MM-dd}-%i.log">
+      <PatternLayout>
+              <pattern>%d{ISO8601} %-5p [%c] %x &lt;%t&gt; - %m%n</pattern>
+      </PatternLayout>
+      <Policies>
+              <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+      </Policies>
+    </RollingFile>
+  
+   	<Console name="ConsoleJSONAppender" target="SYSTEM_OUT">
+	    <JsonLayout complete="false" compact="false">
+	        <KeyValuePair key="myCustomField" value="myCustomValue" />
+	    </JsonLayout>
+    </Console>
+  
+    <Console name="STDOUT" target="SYSTEM_OUT">
+        <AppenderRef ref="ConsoleJSONAppender"/>
+    </Console>
+  
+  </Appenders>
+  
+  <Loggers>
+  
+    <Logger name="application.servlet.LibertyServlet" level="debug">    
+      <AppenderRef ref="ConsoleJSONAppender"/>      
+    </Logger>
+    
+    <logger name="CONSOLE_JSON_APPENDER" level="debug">
+    	<AppenderRef ref="STDOUT"/>
+    </logger>
+  
+  	<logger name="org.apache.logging.log4j" level="debug">
+  	  <AppenderRef ref="ConsoleJSONAppender"/>
+  	</logger>
+    
+    <Root level="debug">
+      <AppenderRef ref="STDOUT"/>
+      <AppenderRef ref="ConsoleJSONAppender"/>
+    </Root>
+    
+  </Loggers>
+  
+</Configuration>

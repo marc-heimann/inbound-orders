@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.swisslog</groupId>
+  <artifactId>inboundorders</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>inboundorders</name>
+  <url>http://swisslog.com</url>
+
+  <properties>   
+   
+    <app.name>inbound-order</app.name>
+    <package.file>${project.build.directory}/${app.name}-service.jar</package.file>
+    <packaging.type>runnable</packaging.type>
+    
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    
+    <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
+    
+    <dockerfile-maven-version>1.4.9</dockerfile-maven-version>
+	<cucumber.version>1.2.5</cucumber.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    
+   	<commons-io.version>1.3.2</commons-io.version>
+   	<selenium.version>3.141.59</selenium.version>
+   	<org.sahli.asciidoc.confluence.publisher.version>0.7.0</org.sahli.asciidoc.confluence.publisher.version>
+    
+    <rootConfluenceUrl>http://10.49.145.143:8090</rootConfluenceUrl>
+    <confluence.spaceKey>SCS</confluence.spaceKey>
+    <confluence.documentation.ancestorId>5373967</confluence.documentation.ancestorId>
+    <confluence.publisherUserName>documentation-publisher</confluence.publisherUserName>
+    <confluence.publisherPassword>marc.heimann</confluence.publisherPassword>
+    <asciidocRootFolder>./src/main/asciidoc</asciidocRootFolder>
+    <confluence.publishingStrategy>APPEND_TO_ANCESTOR</confluence.publishingStrategy>
+    <confluence.test-documentation.ancestorId>5373969</confluence.test-documentation.ancestorId>
+    <cucumberTestReportFolder>docs</cucumberTestReportFolder> 
+    <org.bsc.maven.confluence.reporting.version>6.3.2</org.bsc.maven.confluence.reporting.version>
+    
+    <asciidoctorj.pdf.version>1.5.0-alpha.16</asciidoctorj.pdf.version>
+    <asciidoctorj.diagram.version>1.5.18</asciidoctorj.diagram.version>
+    <asciidoctor.maven-plugin.version>1.6.0</asciidoctor.maven-plugin.version>
+    <sourceDirectory>./src/main/asciidoc</sourceDirectory>
+    <outputDirectory>./src/main/resources/static/documentation</outputDirectory>
+    
+    <chartName>inbound-order-service</chartName>
+    <skipSnapshotChart>false</skipSnapshotChart>
+    
+    <kafka.version>2.3.0</kafka.version>
+    <debezium.version>0.9.5.Final</debezium.version>
+    <vertx.version>3.8.1</vertx.version>
+    
+  </properties>
+  
+ <dependencies>
+ 
+    <dependency>
+      <groupId>org.eclipse.microprofile.reactive-streams-operators</groupId>
+      <artifactId>microprofile-reactive-streams-operators-api</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+  
+    <dependency>
+      <groupId>org.eclipse.microprofile.reactive.messaging</groupId>
+      <artifactId>microprofile-reactive-messaging-api</artifactId>
+      <version>1.0</version>
+    </dependency>
+  
+    <dependency>
+      <groupId>org.eclipse.microprofile</groupId>
+      <artifactId>microprofile</artifactId>
+      <version>3.0</version>
+      <type>pom</type>
+      <scope>provided</scope>
+    </dependency>
+
+	<dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.28</version>
+    </dependency>
+
+	<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>slf4j-jdk14</artifactId>
+	    <version>1.7.28</version>
+	</dependency>
+
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-api</artifactId>
+        <version>2.12.1</version>
+    </dependency> 
+    
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>2.12.1</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.9.9.3</version>
+    </dependency>
+    
+	<dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-server</artifactId>
+        <version>${selenium.version}</version>
+        <scope>test</scope>
+    </dependency>
+	<dependency>
+           <groupId>commons-io</groupId>
+           <artifactId>commons-io</artifactId>
+           <version>${commons-io.version}</version>
+       </dependency>
+       <dependency>
+	    <groupId>com.google.code.gson</groupId>
+	    <artifactId>gson</artifactId>
+	    <version>2.8.5</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.sonarsource.scanner.maven</groupId>
+	    <artifactId>sonar-maven-plugin</artifactId>
+	    <version>3.6.0.1398</version>
+	</dependency>
+
+
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-rx-java2</artifactId>
+      <version>${vertx.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-kafka-client</artifactId>
+      <version>${vertx.version}</version>
+    </dependency>
+
+	<dependency>
+      <groupId>org.apache.kafka</groupId>
+      <artifactId>kafka-clients</artifactId>
+      <version>${kafka.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.debezium</groupId>
+      <artifactId>debezium-core</artifactId>
+      <version>${debezium.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.debezium</groupId>
+      <artifactId>debezium-core</artifactId>
+      <version>${debezium.version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.kafka</groupId>
+      <artifactId>kafka_2.12</artifactId>
+      <version>${kafka.version}</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+        <groupId>info.cukes</groupId>
+        <artifactId>cucumber-java8</artifactId>
+        <version>${cucumber.version}</version>
+        <scope>test</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>info.cukes</groupId>
+        <artifactId>cucumber-junit</artifactId>
+        <version>${cucumber.version}</version>
+        <scope>test</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+    </dependency>
+    
+ </dependencies>
+    
+ <build>
+ 	 <plugins>
+	    <plugin>
+		    <artifactId>maven-war-plugin</artifactId>
+		    <version>2.6</version>
+		    <configuration>
+		        <failOnMissingWebXml>false</failOnMissingWebXml>
+		    </configuration>
+		  </plugin>
+	 </plugins>
+ </build>
+    
+ <profiles>    
+    
+   <!-- 
+   		Regular build profile
+   		- Installing open liberts server
+   		- Building the Java project
+   		- Checking CodeCoverage with Jacoco
+   		- Packing a helm chart version (if snapshot helm chart builds are activated)  
+   -->
+   <profile>
+     <id>build</id>
+       <build>
+	     <plugins>
+	       <plugin>
+		        <groupId>net.wasdev.wlp.maven.plugins</groupId>
+		        <artifactId>liberty-maven-plugin</artifactId>
+		        <version>3.0.M1</version>
+		        <configuration>
+		        <assemblyArtifact>
+		            <groupId>io.openliberty</groupId>
+		            <artifactId>openliberty-runtime</artifactId>
+		            <version>19.0.0.8</version>
+		            <type>zip</type>
+		        </assemblyArtifact>
+		        <configFile>${basedir}/src/main/liberty/config/server.xml</configFile>		        
+		        <packageFile>${package.file}</packageFile>
+		        <include>${packaging.type}</include>
+		        <looseApplication>false</looseApplication>
+		        <installAppPackages>project</installAppPackages>
+		        <bootstrapProperties>
+		            <app.context.root>/</app.context.root>
+		            <app.location>${project.artifactId}-${project.version}.war</app.location>
+		            <default.http.port>9080</default.http.port>
+		            <default.https.port>9443</default.https.port>
+		        </bootstrapProperties>
+		    </configuration>
+		    <executions>
+		        <execution>
+		            <id>install-server</id>
+		            <phase>prepare-package</phase>
+		            <goals>
+		                <goal>install-server</goal>
+		                <goal>create-server</goal>
+		                <goal>install-feature</goal>
+		            </goals>
+		        </execution>
+		        <execution>
+		            <id>package-server-with-apps</id>
+		            <phase>package</phase>
+		            <goals>
+		                <goal>install-apps</goal>
+		                <goal>package-server</goal>
+		            </goals>
+		        </execution>
+		    </executions>
+		  </plugin>      
+	      <plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<!-- attached to Maven test phase -->
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+		  </plugin>
+	      <plugin>
+		      <groupId>com.deviceinsight.helm</groupId>
+		      <artifactId>helm-maven-plugin</artifactId>
+		      <version>2.1.0</version>
+		      <configuration>
+		        <chartName>${chartName}</chartName>
+		        <helmGroupId>com.deviceinsight.helm</helmGroupId>		       
+		        <chartRepoUrl>http://my-chartmuseum-chartmuseum:8080</chartRepoUrl>
+		        <helmVersion>2.13.0</helmVersion>
+		        <skipSnapshots>${skipSnapshotChart}</skipSnapshots>
+		        <strictLint>true</strictLint>
+		        <valuesFile>src/main/helm/${chartName}/values.yaml</valuesFile>
+		      </configuration>
+		      <executions>
+		        <execution>
+		          <goals>
+		            <goal>package</goal>
+		            <goal>lint</goal>
+		            <goal>template</goal>
+		            <goal>deploy</goal>
+		          </goals>
+		        </execution>
+		      </executions>
+		    </plugin>    
+	      </plugins>
+	    </build>
+      </profile>
+          
+      <!-- 
+      		Documentation profile
+      		- Build documentation from adoc files 
+      		- Publish documentation to confluence 
+      -->
+	  <profile>
+	    <id>documentation</id>
+	    <build>
+	      <plugins>
+	      	<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+ 				<configuration>
+	                <filesets>
+	                    <fileset>
+	                        <directory>src/main/resources/static/documentation</directory>	                                            
+	                        <followSymlinks>false</followSymlinks>
+	                    </fileset>
+	                </filesets>
+            	</configuration>			
+			</plugin>			
+	        <plugin>
+		        <groupId>org.asciidoctor</groupId>
+		        <artifactId>asciidoctor-maven-plugin</artifactId>
+		        <version>${asciidoctor.maven-plugin.version}</version>
+		        <dependencies>
+		        	<dependency>
+		        		<groupId>org.asciidoctor</groupId>
+      					<artifactId>asciidoctorj-diagram</artifactId>
+      					<version>${asciidoctorj.diagram.version}</version>
+		        	</dependency>
+		        	<dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctorj-pdf</artifactId>
+                        <version>${asciidoctorj.pdf.version}</version>
+                    </dependency>                   
+		        </dependencies>
+		        <configuration>
+		        	<sourceDirectory>${sourceDirectory}</sourceDirectory>
+        			<outputDirectory>${outputDirectory}</outputDirectory>
+		        	<attributes>
+		        		<!-- Uses the <img src="data:image/png;base64> syntax for diagrams -->
+		        		<data-uri />
+		        		<!-- Allows access to remote files (eg. code on external GitHub) -->		        		
+		        		<!-- imagesdir>./images</imagesdir-->
+                        <allow-uri-read>true</allow-uri-read>
+		        	</attributes>
+		        	<requires>
+		        		<require>asciidoctor-diagram</require>
+		        	</requires>
+		        </configuration>        
+				<executions>
+                    <execution>                    
+                        <id>generate-html-doc</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <backend>html5</backend>
+                        </configuration>
+                    </execution>                     
+ 					<execution>
+                        <id>generate-pdf-doc</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <backend>pdf</backend>                    
+                            <sourceHighlighter>coderay</sourceHighlighter>
+                            <attributes>
+                                <icons>font</icons>
+                                <pagenums />
+                                <toc />
+                                <idprefix />
+                                <idseparator>-</idseparator>
+                            </attributes>
+                        </configuration>
+                    </execution>
+    
+                </executions>		        
+		    </plugin>
+		    <plugin>
+	    		<groupId>org.sahli.asciidoc.confluence.publisher</groupId>
+	    		<artifactId>asciidoc-confluence-publisher-maven-plugin</artifactId>
+	    		<version>${org.sahli.asciidoc.confluence.publisher.version}</version>
+	    		<configuration>
+		        	<asciidocRootFolder>${asciidocRootFolder}</asciidocRootFolder>
+		        	<sourceEncoding>UTF-8</sourceEncoding>
+		        	<rootConfluenceUrl>${rootConfluenceUrl}</rootConfluenceUrl>
+		        	<spaceKey>${confluence.spaceKey}</spaceKey>
+		        	<ancestorId>${confluence.documentation.ancestorId}</ancestorId>
+		        	<username>${confluence.publisherUserName}</username>
+		        	<password>${confluence.publisherPassword}</password>
+		        	<pageTitlePrefix xml:space="preserve" />
+		        	<publishingStrategy>${confluence.publishingStrategy}</publishingStrategy>
+		        	<pageTitleSuffix xml:space="preserve"> [${project.version}]</pageTitleSuffix>
+		        	<versionMessage>Version ${project.version}</versionMessage>
+			        	<attributes>
+			            	<version>${project.version}</version>
+			            	<someOtherKey>value</someOtherKey>
+			        	</attributes>
+	    		</configuration>
+	    		<executions>
+                	<execution>
+				        <id>publish-documentation</id>
+				        <phase>generate-resources</phase>
+				        <goals>
+				            <goal>publish</goal>
+				        </goals>
+				    </execution>
+			    </executions>  
+	    	</plugin>
+	      </plugins>    
+	    </build>
+	  </profile>
+	  
+	  <!-- 
+	  		Acceptance-test profile
+	  		- Cucumber test execution 
+	  		- Test report publishing to confluence	  		 
+	  -->
+	  <profile>
+	    <id>acceptance-test</id>
+	    <build>
+	      <plugins>
+	      	<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>		
+			</plugin>
+	        <plugin>
+	          <artifactId>maven-failsafe-plugin</artifactId>
+	          <version>2.12</version>
+	          <executions>
+	            <execution>
+	              <goals>
+	                <goal>integration-test</goal>
+	                <goal>verify</goal>	    
+	              </goals>
+	            </execution>
+	          </executions>
+	        </plugin>	        
+	        <plugin>
+			  <groupId>org.codehaus.mojo</groupId>
+			  <artifactId>build-helper-maven-plugin</artifactId>
+			  <version>1.7</version>
+			  <executions>
+			    <execution>
+			      <id>add-source</id>
+			      <phase>generate-sources</phase>
+			      <goals>
+			        <goal>add-test-source</goal>
+			      </goals>
+			      <configuration>
+			        <sources>
+			          <source>src/it/java</source>
+			        </sources>
+			      </configuration>
+			    </execution>
+			    <execution>
+			      <id>add-resource</id>
+			      <phase>generate-sources</phase>
+			      <goals>
+			        <goal>add-test-resource</goal>
+			      </goals>
+			      <configuration>
+			        <resources>
+			          <resource>
+			            <directory>src/it/resources</directory>
+			          </resource>
+			        </resources>
+			      </configuration>
+			    </execution>
+			  </executions>
+			</plugin>			
+		    <plugin>
+	    		<groupId>org.sahli.asciidoc.confluence.publisher</groupId>
+	    		<artifactId>asciidoc-confluence-publisher-maven-plugin</artifactId>
+	    		<version>${org.sahli.asciidoc.confluence.publisher.version}</version>
+	    		<configuration>
+		        	<asciidocRootFolder>./target/${cucumberTestReportFolder}</asciidocRootFolder>
+		        	<sourceEncoding>UTF-8</sourceEncoding>
+		        	<rootConfluenceUrl>${rootConfluenceUrl}</rootConfluenceUrl>
+		        	<spaceKey>${confluence.spaceKey}</spaceKey>
+		        	<ancestorId>${confluence.test-documentation.ancestorId}</ancestorId>
+		        	<username>${confluence.publisherUserName}</username>
+		        	<password>${confluence.publisherPassword}</password>
+		        	<pageTitlePrefix xml:space="preserve" />
+		        	<publishingStrategy>${confluence.publishingStrategy}</publishingStrategy>
+		        	<pageTitleSuffix xml:space="preserve"> [${project.version}]</pageTitleSuffix>
+		        	<versionMessage>Version ${project.version}</versionMessage>
+			        	<attributes>
+			            	<version>${project.version}</version>
+			            	<someOtherKey>value</someOtherKey>
+			        	</attributes>
+	    		</configuration>
+	    		<executions>
+                	<execution>
+				        <id>publish-documentation</id>
+				        <phase>verify</phase>
+				        <goals>
+				            <goal>publish</goal>
+				        </goals>
+				    </execution>
+			    </executions>  
+	    	</plugin>
+			<plugin>
+		        <groupId>org.asciidoctor</groupId>
+		        <artifactId>asciidoctor-maven-plugin</artifactId>
+		        <version>${asciidoctor.maven-plugin.version}</version>
+		        <dependencies>
+		        	<dependency>
+		        		<groupId>org.asciidoctor</groupId>
+      					<artifactId>asciidoctorj-diagram</artifactId>
+      					<version>${asciidoctorj.diagram.version}</version>
+		        	</dependency>
+		        	<dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctorj-pdf</artifactId>
+                        <version>${asciidoctorj.pdf.version}</version>
+                    </dependency>                   
+		        </dependencies>
+		        <configuration>
+		        	<sourceDirectory>${sourceDirectory}</sourceDirectory>
+        			<outputDirectory>${outputDirectory}</outputDirectory>
+		        	<attributes>
+		        		<!-- Uses the <img src="data:image/png;base64> syntax for diagrams -->
+		        		<data-uri />
+		        		<!-- Allows access to remote files (eg. code on external GitHub) -->
+                        <allow-uri-read>true</allow-uri-read>
+		        	</attributes>
+		        	<requires>
+		        		<require>asciidoctor-diagram</require>
+		        	</requires>
+		        </configuration>
+		    </plugin>		   
+        	<plugin>
+			    <groupId>com.github.cukedoctor</groupId>
+			    <artifactId>cukedoctor-maven-plugin</artifactId>
+			    <version>1.2.1</version>
+			         <configuration>
+			            <outputFileName>${project.artifactId}-test-documentation</outputFileName>
+			            <documentTitle>${project.artifactId} Acceptance Test Report</documentTitle>
+			            <outputDir>${cucumberTestReportFolder}</outputDir>
+			            <toc>left</toc>
+			            <numbered>false</numbered>
+			            <docVersion>${project.version}</docVersion>
+			         </configuration>
+			        <executions>
+			            <execution>
+			                <goals>
+			                    <goal>execute</goal>
+			                </goals>
+			                <phase>package</phase>
+			            </execution>
+			        </executions>
+			</plugin>
+			<plugin> 
+				<groupId>com.google.code.maven-replacer-plugin</groupId> 
+				<artifactId>replacer</artifactId> 
+				<version>1.5.3</version> 
+				<executions> 
+					<execution> 
+						<phase>package</phase> 
+						<goals> 
+							<goal>replace</goal> 
+						</goals> 
+					</execution> 
+				</executions> 
+				<configuration> 
+					<file>target/docs/${project.artifactId}-test-documentation.adoc</file> 
+					<replacements> 
+						<replacement> 
+							<token>icon:thumbs-up</token>
+							<value /> 
+							<token>icon:thumbs-down</token>
+							<value />
+						</replacement>
+					</replacements> 
+				</configuration> 
+			</plugin> 		    
+	      </plugins>    
+	    </build>
+	  </profile>
+	  
+	  <!-- 
+	  		Release profile
+	  		- Trigger maven release plugin
+	  		- Packing a helm chart release version
+	  		- Push it to the central chart repository
+	  -->
+	  <profile>
+	  	<id>release</id>
+	  	<build>
+	  		<plugins>
+	  			<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>		
+				</plugin>
+	  			<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.5.3</version>				
+				</plugin>
+	  			<plugin>
+			      <groupId>com.deviceinsight.helm</groupId>
+			      <artifactId>helm-maven-plugin</artifactId>
+			      <version>2.1.0</version>
+			      <configuration>
+			        <chartName>${chartName}</chartName>
+			        <helmGroupId>com.deviceinsight.helm</helmGroupId>		       
+			        <chartRepoUrl>http://my-chartmuseum-chartmuseum:8080</chartRepoUrl>
+			        <helmVersion>2.13.0</helmVersion>
+			        <skipSnapshots>${skipSnapshotChart}</skipSnapshots>
+			        <strictLint>true</strictLint>
+			        <valuesFile>src/test/helm/${chartName}/values.yaml</valuesFile>
+			      </configuration>
+			      <executions>
+			        <execution>
+			          <goals>
+			            <goal>package</goal>
+			            <goal>lint</goal>
+			            <goal>template</goal>
+			            <goal>deploy</goal>
+			          </goals>
+			        </execution>
+			      </executions>
+			    </plugin>
+	  		</plugins>
+	  	</build>	  	
+	  </profile>
+	                
+    </profiles>    
+    
+    <repositories>
+	  <repository>
+	    <id>maven-group</id>
+	    <url>http://10.49.145.193:8080/repository/maven-group/</url>
+	  </repository>
+	</repositories>	
+
+	<distributionManagement>
+	  <snapshotRepository>
+	    <id>nexus-snapshots</id>
+	    <url>http://10.49.145.193:8080/repository/maven-snapshots/</url>
+	  </snapshotRepository>
+	  <repository>
+	    <id>nexus-releases</id>
+	    <url>http://10.49.145.193:8080/repository/maven-releases/</url>
+	  </repository>
+	</distributionManagement>
+	
+	<organization>
+		<name>Swisslog </name>
+		<url>www.swisslog.com</url>
+	</organization>
+	
+	<scm>
+		<developerConnection>scm:git:http://gitlab.swisslog.net/g7heimm/inbound-order-service.git</developerConnection>
+		<connection>scm:git:http://gitlab.swisslog.net/g7heimm/inbound-order-service.git</connection>
+		<tag>HEAD</tag>
+		<url>http://gitlab.swisslog.net</url>
+	</scm>
+    
+</project>

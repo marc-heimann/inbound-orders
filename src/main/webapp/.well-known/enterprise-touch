@@ -1,0 +1,10 @@
+{
+	"type":"enterprise-touch", 
+	"screens", [
+		{ 
+			"name": "InboundorderWorkstation",
+			"menu-item-key": "io-workstation",
+			"URL": "/inboundorders/ws-io.html" 
+		}		
+	]
+}

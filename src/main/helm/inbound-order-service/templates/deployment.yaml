@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "inbound-order-service.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "inbound-order-service.name" . }}
+    helm.sh/chart: {{ include "inbound-order-service.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/part-of: {{ include "inbound-order-service.name" . }}
+    app.kubernetes.io/version: ${project.version} 
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "inbound-order-service.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "inbound-order-service.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/part-of: {{ include "inbound-order-service.name" . }}
+        app: {{ include "inbound-order-service.fullname" . }}        
+    spec:
+      imagePullSecrets: 
+        - name: {{ .Values.image.imagePullSecret }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health/
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health/
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          resources:
+{{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
